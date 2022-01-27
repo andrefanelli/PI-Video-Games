@@ -1,12 +1,20 @@
 const { Router } = require('express');
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
+const genreRoute = require('./genre');
+const videogameRoute = require('./videogame');
+
 
 
 const router = Router();
 
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
+router.use('/genre', genreRoute); //middelware quiere decir que en la ruta /gender use genderRoute
+router.use('/videogame', videogameRoute);
+
+
+//router.get('/', (req, res, next)=> {
+//    res.send('Soy el get de /Videogame')
+//  });
+
+
 
 
 module.exports = router;
