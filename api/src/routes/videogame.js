@@ -1,101 +1,125 @@
 const { Router } = require('express');
-const { Op } = require('sequelize');
 const axios = require('axios');
-const { Videogame, Genre } = require('../db');
-const { json } = require('body-parser');
-const router = Router();
+const { Videogame, Genre, Platform } = require('../db');
 const { YOUR_API_KEY } = process.env;
 
 
+const router = Router();
 
 
-const getApiInfo = async () => {
-    const apiUrl = await axios.get(`http://api.rawg.io/api/games?key=aefd01f1d1274e8aa26763bcf96aa1b0`);
-    const apiInfo = await apiUrl.data.results.map(el => {
+const getGames = async () => {
+    let apiGames = [];
+
+const url1 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=1`)
+const url2 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=2`)
+const url3 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=3`)
+const url4 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=4`)
+const url5 = await axios.get(`https://api.rawg.io/api/games?key=${YOUR_API_KEY}&page=5`)
+
+    apiGames = url1.data.results.concat(
+        url2.data.results,
+        url3.data.results,
+        url4.data.results,
+        url5.data.results,
+    );
+
+
+    apiGames = apiGames.map((game) => {
+        const platforms = game.platforms.map((g) => g.platform);
         return {
-            id: el.id,
-            image: el.background_image,
-            name: el.name,
-            genre: el.genres.map(el => el), //es un areglo, uso map para q me devuelvas varios generos
+          id: game.id,
+          name: game.name,
+          image: game.background_image,
+          genres: game.genres,
+          platforms: platforms,
+          rating: game.rating,
+          released: game.released,
         };
+      });
+      return apiGames;
+    };
+    
+    const dataBase = async () => {
+      return await Videogame.findAll({
+        include: [Genre, Platform],
+        // traigo el nombre del genero
+      });
+    };
+    
+      const getAllGames = async () => {
+      const apiData = await getGames(); // devuelvo todo la pi
+      const dbInfo = await dataBase();
+      const total = apiData.concat(dbInfo);
+      return total;
+    };
+
+
+router.get("/", async (req, res) => {
+        const { name } = req.query;
+        let totalGames = await getAllGames();
+        if (name) {
+          let searchGame = totalGames.filter((game) =>
+            game.name.toLowerCase().includes(name.toLowerCase())
+     );
+            searchGame.length ?
+            res.status(200).send(searchGame):
+            res.status(404).json({ msg: 'Game not Found 😕' });
+        } else {
+            res.status(200).json(totalGames);
+      
+        }
     });
-    return apiInfo;
-};
-
-const getDbInfo = async () => {
-    return await Videogame.findAll({
-     include: {
-        model: Genre,
-        attributes: ['name'],
-        through: {
-            attributes: [],
-        },
-      }
-    })
-}
-
-const getAllVideogames = async () => {
-    const apiInfo = await getApiInfo(); //llamo a getApInfo y la ejecuto
-    const dbInfo = await getDbInfo();
-    const infoTotal = apiInfo.concat(dbInfo);
-    return infoTotal;
-}
 
 
 
 
-router.get('/', async (req, res) => {
-    const name = req.query.name
-    let videogamesTotal = await getAllVideogames();
-    if (name) {
-        let videogameName = await videogamesTotal.filter( el => el.name.toLowerCase().includes(name.toLowerCase()))//fijate si el nombre coincide con el name que me pasan por query - el.name es el nombre del videogame
-        videogameName.length? //encontraste algo acá?                                  //include me va a incluir el name donde sea, adelante, al medio , altras...
-        res.status(200).send(videogameName) :
-        res.status(404).send('No existe el video juego que buscas 😕');
-    } else {
-        res.status(200).send(videogamesTotal); // si no encuentra el query
-    }   
-})
-
-
-
-router.get('/:id', async (req, res) => { // FUNCIONA !
+router.get('/:id', async (req, res) => { 
     const { id } = req.params // const id = req.params.id   es lo mismo
-    const videogamesTotal = await getAllVideogames() //reutilizo la fx de traer todos
-    if (id) {
-        let videogameId = await videogamesTotal.filter(el => el.id == id) //dentro de todos los videogames filtrame el que tiene el id que te estoy pasando
-        videogameId.length?
-        res.status(200).json(videogameId) : // si no , abajo(no encontro)
-        res.status(404).send('No se encontró ese video juego 😕')
-    }
+    try{
+        if(id.includes('-')) {//detectar UUID en BD
+            const gameDb = await Videogame.findOne({
+                where: {id},
+                include: [Genre, Platform],
+            });
+            return res.json(gameDb);
+        }
+        const gameApi = await axios.get(`https://api.rawg.io/api/games/${id}?key=${YOUR_API_KEY}`);
+        res.json(gameApi.data);
 
-})
+     } catch (error) {
+         res.status(404).json({error: 'Id not found 😕'});     
+     }
+});
 
+    
+    
+     
 
 router.post('/', async (req, res) => {
-    let {
-        name,
-        description,
-        released,
-        rating,
-        genres,
-        platforms,
-        createdInDb
-    } = req.body
+    let {name, image, description, released, rating, genres, platforms, createdInDb} = req.body
 
-    let videogameCreated = await Videogame.create({
+    let newGame = await Videogame.create({
         name,
+        image,
         description,
         released,
-        rating,
+        rating: rating || 1,
         createdInDb
     })
+
     let genreDb = await Genre.findAll({
         where: {name : genres}
     })
-    videogameCreated.addGenre(genreDb)
-    res.send('Video juego creado con exito')
-})    
+
+    let platformDb = await Platform.findAll({
+        where: {name: platforms}
+    });
+
+    newGame.addGenres(genreDb);
+    newGame.addPlatforms(platformDb);
+
+    res.status(200).send('Video juego creado con exito 👌');
+});    
 
 //el next en las rutas va al sgte middleware y casualmente el sgte middleware es el control de errores
 //router.get('/', (req, res, next) => { // con get me traigo o busco algo, videojuegos en este caso
@@ -110,42 +134,6 @@ router.post('/', async (req, res) => {
 //                        //mensaje de error armado en app.js
 //   })
 //})
-
-
-/*
-router.post('/', async (req, res, next) => {  
-    try {
-        const {name, description, release, rating, platforms} = req.body;
-        const newVideogameNew = await Videogame.create({
-            name,
-            description,
-            release,
-            rating,
-            platforms
-        
-        })
-          res.send(newVideogameNew) //name, description, release etc se envía aca, a newVideogameNew
-        }  catch(error) {
-            next(error)
-        }
-  })
-})
-*/
-
-/*
-router.post('/', (req, res, next) => {
-    const {name, description, release, rating, platforms} = req.body
-    return Videogame.create({name, description, release, rating, platforms})
-    .then((newVideogameNew) => {
-    res.status(201).send(newVideogameNew) //201 mensaje creado con exito, es opcional
-  })
-   .catch(error => next(error))
-})
-*/
-
-
-
-
 
 
 /*
@@ -168,11 +156,12 @@ router.put('/', (req, res, next) => {
 
 router.delete('/', (req, res, next) => {
     res.send('soy delete/videogame')
-})
+});
+
 /*
 router.get('*', (req, res) => {
     res.status(404).json('No existe ninguna ruta con dicha url');
 });
 */
-
+  
 module.exports = router;

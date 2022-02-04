@@ -1,16 +1,29 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import './landingPage.css';
 
 
 
 export default function LandingPage(){
     return (
-        <div>
-            <h1>WELCOME TO API VIDEOGAME</h1>
+        
+            <div className="landing_page">
+            <h3>WELCOME TO API VIDEOGAMES</h3>
+            
             <Link to = '/home'>
-                <button>Start</button>
+
+                <button className='button'>Play</button>
+                
             </Link>
         </div>
     )
 
 }
+
+
+
+
+
+
+
+//export default LandingPage;

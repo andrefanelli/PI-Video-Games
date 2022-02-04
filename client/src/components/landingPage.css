@@ -1,0 +1,65 @@
+.landing_page {
+    width: 100vw;
+    height: 100vh;
+/* background: linear-gradient(rgba(150, 177, 245, 0.75), rgba(5, 7, 12, 0.75));*/
+    background-image: url('../image/personas1.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    margin: -40px;
+    padding-top: 50px;
+    text-indent: 35%;
+
+    /*
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+   sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   margin-top: 20px;
+   text-align: center;
+   padding: 20px;
+   color: #fff;
+ */
+  
+
+ 
+  text-align: center;
+  
+  color: black;
+ 
+   
+  font-size: 2rem;
+  text-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 20px rgb(139, 60, 60), 0 0 20px rgb(139, 60, 60), 0 0 20px rgb(139, 60, 60), 0 0 20px rgb(139, 60, 60);
+  word-spacing: 0.1cm;
+  
+
+
+}
+
+.button {
+    color: black;
+    border: 10px yellow;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+    font: bold 30px 'Abadi';
+    font-weight: 900;
+    font-size: 30px;
+    margin-bottom: -150px 1px;
+    margin-right: -700px;
+    width: 150px;
+    box-shadow: 0 20px 20px rgb(15, 13, 0);
+    transform:matrix3d();
+    text-decoration: none;
+
+    
+}
+
+.button:hover {
+    box-shadow: 0 20px 20px 0 rgb(139, 60, 60);
+    
+    
+}
+

@@ -16,24 +16,24 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
 
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
 
     released: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING,
       
     },
 
     rating: {
       type: DataTypes.STRING,
       
-    },
-
-    platforms: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
 
     createdInDb: {

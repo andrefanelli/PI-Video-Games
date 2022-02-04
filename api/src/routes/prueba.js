@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const { Op } = require('sequelize');
+
 const axios = require('axios');
-const { Videogame, Genre } = require('../db.js');
-const { json } = require('body-parser');
+const { Videogame, Genre } = require('../db');
+
 const router = Router();
 const { YOUR_API_KEY } = process.env;
 
@@ -10,7 +10,7 @@ const { YOUR_API_KEY } = process.env;
 
 
 const getApiInfo = async () => {
-    const apiUrl = await axios.get(`https://api.rawg.io/api/games?key=aefd01f1d1274e8aa26763bcf96aa1b0`);
+    const apiUrl = await axios.get(`http://api.rawg.io/api/games?key=${YOUR_API_KEY}`)
     const apiInfo = await apiUrl.data.results.map(el => {
         return {
             id: el.id,
@@ -21,8 +21,6 @@ const getApiInfo = async () => {
     });
     return apiInfo;
 };
-
-
 
 const getDbInfo = async () => {
     return await Videogame.findAll({
@@ -40,23 +38,7 @@ const getAllVideogames = async () => {
     const apiInfo = await getApiInfo(); //llamo a getApInfo y la ejecuto
     const dbInfo = await getDbInfo();
     const infoTotal = apiInfo.concat(dbInfo);
-    console.log(apiInfo)
+    return infoTotal;
 }
-getDbInfo()
 
-
-
-
-
-router.get('/videogame', async (req, res) => {
-    const name = req.query.name
-    let videogamesTotal = await getAllVideogames();
-    if (name) {
-        let videogameName = await videogamesTotal.filter( el => el.name.toLowerCase().includes(name.toLowerCase()))//fijate si el nombre coincide con el name que me pasan por query - el.name es el nombre del videogame
-        videogameName.length? //encontraste algo acá?                                  //include me va a incluir el name donde sea, adelante, al medio , altras...
-        res.status(200).send(videogameName) :
-        res.status(404).send('No existe el video juego que buscas 😕');
-    } else {
-        res.status(200).send(videogamesTotal); // si no encuentra el query
-    }   
-})
+module.exports = router;
