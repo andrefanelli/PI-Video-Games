@@ -111,13 +111,13 @@ export function orderByRating(payload) {
 }
 
 export function getDetails(id){
-    if (id) {
+    if(id){
         return async function (dispatch){
             try {
-                const json = await axios.get(`http://localhost:3001/api/videogame/${id}`)
+                const detail = await axios.get(`http://localhost:3001/api/videogame/${id}`);
                 dispatch ({
                     type: 'GET_DETAILS',
-                    payload: json.data
+                    payload: detail.data
         })   
     } catch(error){
     console.log(error)

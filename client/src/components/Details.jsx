@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { getDetails } from '../actions/index';
+import { getDetails } from '../actions/index.js';
 import { useEffect } from "react";
+import './details.css'
 
 
 export default function Details(){
@@ -22,14 +23,13 @@ export default function Details(){
     return (
         <div>
             <Link to={'/home'} onClick={handleReset}>
-                <button>GO BACK</button>
+                <button className="button">HOME</button>
                 </Link>
-            {
-                detail.length > 0 ?
+          
                 <div>
-                <h1>Title: {detail[0].name}</h1>
-                <img src = {detail.background_image } alt={detail.name}/>
-                <p>Released: {detail[0].released}</p>
+                <h1 className="title">Title: {detail.name}</h1>
+                <img src = {detail.background_image } alt='not found'/>
+                <p>Released: {detail.released}</p>
                 <p>
                     Platforms: 
                     {detail.id?.length > 7 
@@ -39,8 +39,8 @@ export default function Details(){
                 <p>Genres: {detail.genres?.map(g => g.name).join("-")}</p>
                 <p>Rating: {detail.rating}</p>
                 <p>Description: {detail.description || detail.description_raw}</p>
-                </div> : <p>Loading...</p>
-            }   
+                </div>
+             
             
          </div>   
 

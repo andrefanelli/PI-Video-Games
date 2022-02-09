@@ -8,57 +8,59 @@
     background-attachment: fixed;
     background-size: cover;
     margin: -40px;
-    padding-top: 50px;
+    padding-top: 80px;
+}
+
+.title {
     text-indent: 35%;
-
-    /*
-   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-   sans-serif;
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;
-   margin-top: 20px;
-   text-align: center;
-   padding: 20px;
-   color: #fff;
- */
-  
-
- 
-  text-align: center;
-  
-  color: black;
- 
+    font-size: 2.2rem;
+    text-shadow: 0 0 20px #fff, 0 0 20px #fff, 0 0 30px goldenrod, 0 0 30px goldenrod, 0 0 30px goldenrod, 0 0 30px goldenrod;
+    word-spacing: 0.1cm;
+    width: 80rem;
+    margin-top: 9rem;
+    padding-left: 3rem;
+    
+    
    
-  font-size: 2rem;
-  text-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 20px rgb(139, 60, 60), 0 0 20px rgb(139, 60, 60), 0 0 20px rgb(139, 60, 60), 0 0 20px rgb(139, 60, 60);
-  word-spacing: 0.1cm;
-  
+}
 
-
+.subtitle {
+    text-align: center;
+    justify-content: center;
+    font-size: large;
+    width: 30rem;
+    margin-left: 45rem;
+    margin-top: -0rem;
+    color: white;
+   
+    
+    
 }
 
 .button {
-    color: black;
-    border: 10px yellow;
-    border-radius: 5px;
-    background-color: transparent;
+    
+    color: white;
+    border: 10px rgb(139, 60, 60);
+    border-radius: 0.5rem;
+    background-color: goldenrod;
     cursor: pointer;
     font: bold 30px 'Abadi';
     font-weight: 900;
     font-size: 30px;
     margin-bottom: -150px 1px;
     margin-right: -700px;
-    width: 150px;
-    box-shadow: 0 20px 20px rgb(15, 13, 0);
-    transform:matrix3d();
+    width: 85px;
     text-decoration: none;
+    justify-content: center;
+    text-align: center;
+    opacity: 0.8;
 
     
 }
 
 .button:hover {
-    box-shadow: 0 20px 20px 0 rgb(139, 60, 60);
+    opacity: 1;
+ 
     
     
 }

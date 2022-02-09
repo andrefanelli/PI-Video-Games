@@ -48,7 +48,7 @@ export default function VideogameCreate(){
             ...input,
             [e.target.name]: e.target.value
         }));
-        console.log(input)
+   //     console.log(input)
     }
  
 
@@ -68,18 +68,29 @@ export default function VideogameCreate(){
 
     function handleSubmit(e){
         e.preventDefault();
-        console.log(input)
-        dispatch(postVideogame(input))
-        alert('Videogame creado 👌')
-        setInput({ //seteo todo mi input en cero
-            name: '',
-            image:'',
-            description: '',
-            released: '',
-            rating: '',
-            genres: [],
-            platforms: [],
+        setErrors(
+            validate({
+                ...input,
+                [e.target.name]: e.target.value,
+            })
+        );
+
+        if(Object.keys(errors).length === 0){
+            dispatch(postVideogame(input));
+            alert('Videogame created 👌');
+            setInput({ //seteo todo mi input en cero
+                    name: '',
+                    image:'',
+                    description: '',
+                    released: '',
+                    rating: '',
+                    genres: [],
+                    platforms: [],
         })
+    }else {
+        alert('ERROR: videogame not created 😕');
+        return;
+    }
    //     history.push('/home') //history push y llevame al home para ver si está creado el videojuego. Redirige
  }    
 
@@ -106,14 +117,14 @@ export default function VideogameCreate(){
 
     return(
         <>
-        <div>
-            <Link to= '/home'>Home</Link>
-            
-            <h1>¡Let's go!</h1>
-            <form onSubmit={(e) => handleSubmit(e)}>
+        <div className='home_container'>
+            <Link className='home' to= '/home'>HOME</Link>
+            <h1 className='lets_go'>¡Let's go!</h1>
+            <form className='form' onSubmit={(e) => handleSubmit(e)}>
                 <div>
-                    <label>Name </label>
-                    <input
+                   
+                    <input className='input'
+                    placeholder='Videogame Name'
                     type= 'text'
                     value= {input.name}
                     name= 'name'
@@ -124,8 +135,9 @@ export default function VideogameCreate(){
                     )}
                 </div>
                 <div>
-                    <label>Image </label>
-                    <input
+                    
+                    <input className='input'
+                    placeholder='Image'
                     type= 'img'
                     value= {input.image}
                     name= 'image'
@@ -134,8 +146,9 @@ export default function VideogameCreate(){
                     />
                 </div>
                 <div>
-                    <label>Description </label>
-                    <input
+                    
+                    <input className='input'
+                    placeholder='Description'
                     type= 'text'
                     value= {input.description}
                     name= 'description'
@@ -145,18 +158,19 @@ export default function VideogameCreate(){
                         <p className='error'>{errors.description}</p>
                     )}
                 </div>
-                <div>
-                    <label>Released </label>
-                    <input
+                <div className='released_container'>
+                    <label className='released'> Released </label>
+                    <input className='released_input' 
                     type= 'date'
                     value= {input.released}
                     name= 'released'
                     onChange={(e) => handleChange(e)}
                     />
-                </div>
-                <div>
-                    <label>Rating </label>
-                    <input
+                
+                
+                    <label className='rating'>Rating </label>
+                    <input className='rating_input'
+                    placeholder='0 to 5'
                     type= 'number'
                     value= {input.rating}
                     min={0}
@@ -165,36 +179,38 @@ export default function VideogameCreate(){
                     onChange={(e) => handleChange(e)}
                     />
                 </div> 
-
-                <p>Genres </p>
-                <select className='select' onChange={(e) => handleSelectGenre(e)}>
+                <div className='genres_container'>
+                <label className='genres'>Genres </label>
+                <select className='genres_input' onChange={(e) => handleSelectGenre(e)}>
                     {genre.map(g => (
                         <option key={g.name} value={g.name}>{g.name}</option>
                     ))}
                 </select>
-
-                <p>Platforms </p>
-                <select className='select' onChange={(e) => handleSelectPlatform(e)}>
+                </div>
+                <div className='platforms_container'>
+                <label className='platforms'>Platforms </label>
+                <select className='platforms_input' onChange={(e) => handleSelectPlatform(e)}>
                     {platform.map(p => (
                         <option key={p.name} value={p.name}>{p.name}</option>
                     ))}
                 </select>
+                </div>
 
                 <div>
-                    <button type='submit'>Create</button>
+                    <button className='create' type='submit'>CREATE</button>
                   
                 </div>
             </form>
             {input.genres.map(g => 
-                <div className='divGenre'>
-                <p>{g}</p>
-                <button className='botonX' onClick={() => handleDeleteGenre(g)}>X</button>  
+                <div className='x_genre_container'>
+                <label className='x_genre'>{g}</label>
+                <button className='x_genre_buttom' onClick={() => handleDeleteGenre(g)}>X</button>  
                 </div>  
             )}
             {input.platforms.map(p => 
-                <div className='divPlatform'>
-                <p>{p}</p>
-                <button className='botonX' onClick={() => handleDeletePlatform(p)}>X</button>  
+                <div className='x_platform_container'>
+                <label className='x_platform'>{p}</label>
+                <button className='x_platform_buttom' onClick={() => handleDeletePlatform(p)}>X</button>  
                 </div>  
             )}
         </div>

@@ -1,0 +1,32 @@
+.navbar_container{
+    
+    display: block; 
+    position: center;
+    text-align: center;
+}
+
+.select {
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    margin-top: 2rem;
+    margin-left: 1.5rem;
+    height: 1.5rem;
+    width: 8rem;
+    font-size: 17px;
+    border-color: rgb(139, 60, 60);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: rgb(139, 60, 60);
+    border-radius: 0.3rem;
+    color: rgb(7, 202, 7);
+    
+}
+.select:hover{
+    background-color: goldenrod;
+    opacity: 0.9;
+    font-weight: bold;
+    
+}
+

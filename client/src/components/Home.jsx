@@ -5,7 +5,7 @@ import { getVideogames, getGenres, filterVideogamesByGenre, filterCreated, order
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import Paginado from './Paginado';
-import SearchBar from './SearchBar';
+
 import Navbar from './Navbar';
 import Loader from './Loader';
 import './home.css'
@@ -88,12 +88,12 @@ import './home.css'
  
     return (
         <div>
-            <div className="home"></div>
-            <Link to= '/videogame'>Create videogame</Link>
+            <div className="create_container"></div>
+            <Link className='button_create_videogame' to= '/videogame'>CREATE VIDEOGAME</Link>
             
             
-            <div>
-            <button onClick={(e) => {handleClick(e)}}>  
+            <div className='reload_container'>
+            <button className='button_reload' onClick={(e) => {handleClick(e)}}>  
                 Reload     
             </button>
             </div>
@@ -107,7 +107,7 @@ import './home.css'
             />
         </div>
 
-        <ul>
+        <ul className='card_grid'>
             {currentVideogames?.map((g) => {
 
                 return (
@@ -123,13 +123,13 @@ import './home.css'
                   })}
         </ul>
 
-        <div>
+        <div className='pagination'>
             <Paginado 
                 videogamesPerPage={videogamesPerPage}
                 allVideogames={allVideogames.length} // length xq necesito un valor numerico
                 paginado={paginado}/>
 
-            <SearchBar/>
+            
             </div>
 
             </div>
