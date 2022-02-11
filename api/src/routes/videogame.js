@@ -137,7 +137,8 @@ router.post('/', async (req, res) => {
 
 
 /*
-//para vincular un videojuego con un genero
+
+para vincular un videojuego con un genero
 router.post('/:videogameId/gender/:genderId', async (req, res, next) => {
     try{
         const {videogameId, genderId} = req.params;
