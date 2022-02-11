@@ -19,6 +19,9 @@ body {
     color:goldenrod;
     justify-content: center;
     cursor: pointer;
+    background-color: transparent;
+    outline: none;
+    border: none;
 }
 
 .form {
@@ -114,7 +117,7 @@ body {
     border-radius: 0.5rem;
     outline: none;
     border: 3px solid;
-    border-color: goldenrod;
+    border-color: rgb(139, 60, 60);
     background-color: rgb(139, 60, 60);
     color: goldenrod;
     font-weight: bold;
@@ -124,6 +127,7 @@ body {
 .create:hover {
     background-color: goldenrod;
     color: rgb(139, 60, 60);
+    border-color: goldenrod;
     
 }
 

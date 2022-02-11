@@ -11,7 +11,7 @@
     padding-top: 80px;
 }
 
-.title {
+.title_landing {
     text-indent: 35%;
     font-size: 2.2rem;
     text-shadow: 0 0 20px #fff, 0 0 20px #fff, 0 0 30px goldenrod, 0 0 30px goldenrod, 0 0 30px goldenrod, 0 0 30px goldenrod;
@@ -24,7 +24,7 @@
    
 }
 
-.subtitle {
+.subtitle_landing {
     text-align: center;
     justify-content: center;
     font-size: large;
@@ -37,7 +37,7 @@
     
 }
 
-.button {
+.button_landing {
     
     color: white;
     border: 10px rgb(139, 60, 60);
@@ -58,7 +58,7 @@
     
 }
 
-.button:hover {
+.button_landing:hover {
     opacity: 1;
  
     

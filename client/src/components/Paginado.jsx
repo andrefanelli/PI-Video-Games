@@ -11,7 +11,7 @@ export default function Paginado({ videogamesPerPage, allVideogames, paginado}) 
     return (
         <div className='pagination_container'>
                 { pageNumbers && pageNumbers.map(number => (
-                    <a className=' pagination_container a' key={number} href onClick={() => paginado(number)}>{number}</a>
+                    <a key={number} href onClick={() => paginado(number)}>{number}</a>
                   ))}
         </div>
     )
